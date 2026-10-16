@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaun Malone — Event Production Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080808;
+  --off-white: #f0ece3;
+  --cream: #e8e2d5;
+  --acid: #c8f135;
+  --acid-dim: #a3c620;
+  --red: #e83535;
+  --muted: #888;
+  --border: rgba(240,236,227,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 4rem 3rem 3rem;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(200,241,53,0.025) 40px,
+    rgba(200,241,53,0.025) 41px
+  );
+}
+
+.hero-year-strip {
+  position: absolute; top: 3rem; right: 3rem;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+  opacity: 0.35;
+}
+.hero-year-strip span {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 2px; color: var(--acid);
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--acid); margin-bottom: 1.5rem; position: relative; z-index: 1;
+}
+
+.hero-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 12vw, 180px);
+  line-height: 0.88; letter-spacing: -1px;
+  position: relative; z-index: 1;
+  mix-blend-mode: normal;
+}
+.hero-name .line2 { color: var(--acid); }
+
+.hero-meta {
+  display: flex; gap: 3rem; margin-top: 2.5rem;
+  position: relative; z-index: 1;
+  flex-wrap: wrap;
+}
+.hero-stat { display: flex; flex-direction: column; gap: 4px; }
+.hero-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px; line-height: 1; color: var(--acid);
+}
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 2rem; right: 3rem;
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--muted); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── SECTION ── */
+section { position: relative; z-index: 1; }
+
+.section-header {
+  display: flex; align-items: baseline; gap: 1.5rem;
+  padding: 3rem 3rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 64px); line-height: 1;
+}
+.section-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; color: var(--acid); letter-spacing: 2px;
+}
+
+/* ── STATS BAND ── */
+.stats-band {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  border-bottom: 1px solid var(--border);
+}
+.stat-cell {
+  padding: 2.5rem 3rem;
+  border-right: 1px solid var(--border);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-cell-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px; line-height: 1; color: var(--acid);
+}
+.stat-cell-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px;
+}
+
+/* ── ERA TABS ── */
+.era-nav {
+  display: flex; gap: 0; overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem;
+  scrollbar-width: none;
+}
+.era-nav::-webkit-scrollbar { display: none; }
+.era-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); padding: 1.2rem 1.5rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.era-btn:hover { color: var(--off-white); }
+.era-btn.active { color: var(--acid); border-bottom-color: var(--acid); }
+
+/* ── EVENT GRID ── */
+.event-grid {
+  padding: 2rem 3rem 4rem;
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+.event-grid.active { display: grid; }
+
+.event-card {
+  background: var(--black);
+  padding: 1.5rem;
+  transition: background 0.15s;
+  cursor: default;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.event-card:hover { background: #111; }
+
+.event-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+}
+.event-name {
+  font-size: 15px; font-weight: 500; line-height: 1.3;
+  color: var(--off-white);
+}
+.event-venue {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.event-brand {
+  display: inline-block; margin-top: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 2px;
+  background: rgba(200,241,53,0.12); color: var(--acid);
+  width: fit-content;
+}
+.event-brand.sub { background: rgba(232,53,53,0.12); color: var(--red); }
+
+/* ── HIGHLIGHTS ── */
+.highlights-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px; background: var(--border);
+  margin: 0 0 1px;
+}
+.highlight-card {
+  background: var(--black); padding: 2rem 2.5rem;
+}
+.highlight-card:hover { background: #111; }
+.highlight-artist {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; line-height: 1; margin-bottom: 6px;
+}
+.highlight-detail {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); line-height: 1.6;
+}
+.highlight-tag {
+  display: inline-block; margin-top: 10px;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; padding: 2px 8px; border: 1px solid var(--border);
+  color: var(--muted); text-transform: uppercase;
+}
+
+/* ── VENUES ── */
+.venues-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px; background: var(--border);
+}
+.venue-item {
+  background: var(--black); padding: 1.5rem 2rem;
+  font-size: 14px; color: var(--off-white);
+  border-left: 3px solid transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.venue-item:hover { background: #111; border-left-color: var(--acid); }
+.venue-city {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 4px;
+}
+
+/* ── BRANDS ── */
+.brands-section { padding: 3rem; border-top: 1px solid var(--border); }
+.brand-block { margin-bottom: 3rem; }
+.brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px; letter-spacing: 1px;
+}
+.brand-name.sub { color: var(--red); }
+.brand-name.cumulus { color: var(--acid); }
+.brand-years {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--muted); letter-spacing: 3px; margin-top: 4px; margin-bottom: 14px;
+}
+.brand-desc { font-size: 14px; color: #aaa; line-height: 1.7; max-width: 640px; }
+
+/* ── CONTACT ── */
+.contact-bar {
+  padding: 3rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 2rem;
+}
+.contact-bar-left { display: flex; flex-direction: column; gap: 8px; }
+.contact-bar-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px; line-height: 1;
+}
+.contact-bar-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted); letter-spacing: 2px;
+}
+.contact-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.contact-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px; color: var(--off-white); text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.15s;
+}
+.contact-link:hover { color: var(--acid); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+footer span {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .hero {
+    padding: 5rem 1.5rem 2.5rem;
+    min-height: 100svh;
+    justify-content: flex-end;
+  }
+  .section-header, .stat-cell, .brands-section, .contact-bar, footer {
+    padding-left: 1.5rem; padding-right: 1.5rem;
+  }
+  /* hide decorative year strip — it overlaps the heading on narrow screens */
+  .hero-year-strip { display: none; }
+  /* name can be a bit smaller so it doesn't clip */
+  .hero-name { font-size: clamp(60px, 18vw, 120px); }
+  /* stack stats tighter */
+  .hero-meta { gap: 1.5rem; margin-top: 2rem; }
+  .hero-stat-num { font-size: 34px; }
+  /* scroll hint collides with stats on small screens */
+  .hero-scroll { display: none; }
+  .era-nav { padding: 0 1.5rem; }
+  .event-grid { padding: 1rem 1.5rem 3rem; grid-template-columns: 1fr; }
+  .contact-links { align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-year-strip">
+    <span>2011 ——————</span>
+    <span>2012</span>
+    <span>2013</span>
+    <span>2014</span>
+    <span>2015</span>
+    <span>2016</span>
+    <span>2017</span>
+    <span>2018</span>
+    <span>2019</span>
+    <span>2020</span>
+    <span>2021</span>
+    <span>2022</span>
+    <span>2023</span>
+    <span>2024</span>
+    <span>—— 2026</span>
+  </div>
+
+  <div class="hero-eyebrow">Event Producer · Talent Buyer · Promoter</div>
+  <h1 class="hero-name">
+    <div>SHAUN</div>
+    <div class="line2">MALONE</div>
+  </h1>
+
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <span class="hero-stat-num">15+</span>
+      <span class="hero-stat-label">Years Active</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">500+</span>
+      <span class="hero-stat-label">Events Produced</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">100K+</span>
+      <span class="hero-stat-label">Total Attendees</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">2</span>
+      <span class="hero-stat-label">Brands Founded</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll ↓</div>
+</header>
+
+<!-- ═══ STATS BAND ═══ -->
+<div class="stats-band">
+  <div class="stat-cell">
+    <div class="stat-cell-num">15+</div>
+    <div class="stat-cell-label">Venues Partnered</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-cell-num">THE AGORA</div>
+    <div class="stat-cell-label">Cleveland · Primary anchor venue</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-cell-num">4K+</div>
+    <div class="stat-cell-label">Max Single Event Capacity</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-cell-num">15+</div>
+    <div class="stat-cell-label">Venues Partnered</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-cell-num">OH → FL</div>
+    <div class="stat-cell-label">Now Based Central Florida</div>
+  </div>
+</div>
+
+<!-- ═══ HIGHLIGHT ARTISTS ═══ -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">Notable Artists Promoted</h2>
+    <span class="section-count">Selected highlights</span>
+  </div>
+  <div class="highlights-grid">
+    <div class="highlight-card">
+      <div class="highlight-artist">Zedd</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>Moment of Clarity Tour · 2013<br>Jacobs Pavilion · 2015</div>
+      <span class="highlight-tag">Major Label</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Skrillex</div>
+      <div class="highlight-detail">Jacobs Pavilion at Nautica<br>2014 · 2,000+ cap.</div>
+      <span class="highlight-tag">Arena Artist</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Excision</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>2012 · 2013 · 2014 · 2016 · 2017</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Bassnectar</div>
+      <div class="highlight-detail">The Agora Theater<br>2014 · Large Format</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Major Lazer</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>Free The Universe Tour · 2013</div>
+      <span class="highlight-tag">Major Label</span>
+    </div>
+
+    <div class="highlight-card">
+      <div class="highlight-artist">The Crystal Method</div>
+      <div class="highlight-detail">Beachland Ballroom · SOLD OUT<br>The Winchester · SOLD OUT · 2021</div>
+      <span class="highlight-tag">Sold Out</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Paul Oakenfold</div>
+      <div class="highlight-detail">Liquid Cleveland · 2014 · 2015<br>Multi-show relationship</div>
+      <span class="highlight-tag">Legend</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Krewella</div>
+      <div class="highlight-detail">House of Blues · Get Wet Tour · 2013<br>Liquid · 2012 · 2017</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Adventure Club</div>
+      <div class="highlight-detail">House of Blues · 2013 · 2015<br>Superheroes Anonymous Tour</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Flux Pavilion</div>
+      <div class="highlight-detail">House of Blues · 2012 · 2013<br>Standing on a Hill Tour</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Eric Prydz</div>
+      <div class="highlight-detail">Liquid Cleveland<br>2015 · 18+ Show</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Ganja White Night</div>
+      <div class="highlight-detail">The Agora · 2019<br>w/ Boogie T, Jantsen, SubDocta</div>
+      <span class="highlight-tag">Multi-Act</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">San Holo</div>
+      <div class="highlight-detail">Globe Iron · 2020<br>Existential Dance Music Tour · 2023</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Seven Lions</div>
+      <div class="highlight-detail">Liquid Cleveland · 2015<br>The Agora · 2023</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Flying Lotus</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>2013</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Kaskade</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>Freaks of Nature Tour · 2012</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Big Gigantic</div>
+      <div class="highlight-detail">Grog Shop · 2012<br>House of Blues · Touch The Sky · 2014</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Liquid Stranger</div>
+      <div class="highlight-detail">The Agora · DIMENSIONS Tour<br>WAKAAN · 2022</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">CloZee</div>
+      <div class="highlight-detail">The Agora · 2021<br>Biohackers Tour · 2017</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Mersiv</div>
+      <div class="highlight-detail">Mulberry's · Out of Bounds Tour · 2023<br>The Agora · Digital Night Drive · 2025</div>
+      <span class="highlight-tag">Multi-Year</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Gryffin</div>
+      <div class="highlight-detail">The Agora · Gravity II Tour<br>2019</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">RL Grime</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>2014</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+    <div class="highlight-card">
+      <div class="highlight-artist">Nero</div>
+      <div class="highlight-detail">House of Blues Cleveland<br>2015</div>
+      <span class="highlight-tag">Headliner</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EVENT LOG ═══ -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">Event Archive</h2>
+    <span class="section-count">500+ events · 2008–2026</span>
+  </div>
+
+  <nav class="era-nav">
+    <button class="era-btn active" onclick="showEra('all')">All</button>
+    <button class="era-btn" onclick="showEra('sub26')">2026</button>
+    <button class="era-btn" onclick="showEra('sub25')">2025</button>
+    <button class="era-btn" onclick="showEra('sub24')">2024</button>
+    <button class="era-btn" onclick="showEra('sub23')">2023</button>
+    <button class="era-btn" onclick="showEra('sub22')">2022</button>
+    <button class="era-btn" onclick="showEra('sub21')">2021</button>
+    <button class="era-btn" onclick="showEra('cumulus20')">2020</button>
+    <button class="era-btn" onclick="showEra('cumulus19')">2019</button>
+    <button class="era-btn" onclick="showEra('cumulus18')">2018</button>
+    <button class="era-btn" onclick="showEra('cumulus17')">2017</button>
+    <button class="era-btn" onclick="showEra('cumulus1416')">2014–16</button>
+    <button class="era-btn" onclick="showEra('cumulus1113')">2011–13</button>
+  </nav>
+
+  <!-- ALL -->
+  <div class="event-grid active" id="all">
+
+    <!-- 2026 SUB:MERGED -->
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">San Holo: Wholesome Riddim Chapter 2 Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">SubDocta - Second Opinion Tour</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">Too Many Zooz + The Floozies: Too Many Flooz Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">INZO: Mirrorverse Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">KREAM: Arrival Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">SUB:MERGED presents JUNGLE LOVE w/ Dirt Monkey</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">Wooli: Synapse Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">BUKU @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jan 2026</div><div class="event-name">SHLUMP @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+
+    <!-- 2025 SUB:MERGED -->
+    <div class="event-card"><div class="event-date">Dec 2025</div><div class="event-name">HOSTAGE SITUATION - HOSTILE FREQUENCIES TOUR</div><div class="event-venue"></div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Dec 2025</div><div class="event-name">THE WIDDLER @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Dec 2025</div><div class="event-name">HEYZ @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Dec 2025</div><div class="event-name">WONKYWILLA @ Musica</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Nov 2025</div><div class="event-name">BUZZN w/ G-Space & Mindset</div><div class="event-venue"></div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Nov 2025</div><div class="event-name">CYCLOPS w/ Zen Selekta @ Mercury</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Nov 2025</div><div class="event-name">smith. @ The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2025</div><div class="event-name">GOBLIN TOWN 2025</div><div class="event-venue"></div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2025</div><div class="event-name">RINSE & REPEAT: Riverside Edition</div><div class="event-venue">BrewDog Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2025</div><div class="event-name">BEAR GRILLZ @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Aug 2025</div><div class="event-name">Fire Lights Festival</div><div class="event-venue">Heron Farm · Sherman, NY</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jul 2025</div><div class="event-name">SUMMER RAVE 2025</div><div class="event-venue">Akron Historic Arts District</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jun 2025</div><div class="event-name">GG Magree - "Til You Bleed" Tour @ The Foundry</div><div class="event-venue">The Foundry · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">May 2025</div><div class="event-name">RINSE & REPEAT - Rooftop House & Techno Party</div><div class="event-venue"></div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2025</div><div class="event-name">BUKU + FREDDY TODD @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2025</div><div class="event-name">VKTM - "The Veil of the Hunter" Tour</div><div class="event-venue">The Foundry · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2025</div><div class="event-name">BARELY ALIVE "Watt Tour" w/ BEASTBOI</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2025</div><div class="event-name">Mersiv & INZO: The Digital Night Drive Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Jan 2025</div><div class="event-name">ATLiens: Leaving The World Behind Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+
+    <!-- 2024 SUB:MERGED -->
+    <div class="event-card"><div class="event-date">Nov 2024</div><div class="event-name">SunSquabi & Late Night Radio at Mulberry's</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Nov 2024</div><div class="event-name">THE WIDDLER'S ZERO G ALBUM TOUR</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2024</div><div class="event-name">GOBLIN TOWN w/ TVBOO: Daisy Dukes & Cowboy Boots Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Oct 2024</div><div class="event-name">TERNION SOUND at Mulberry's</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2024</div><div class="event-name">Riot Ten: Feral Tour at The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2024</div><div class="event-name">TAIKI NULIGHT at The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Sep 2024</div><div class="event-name">RAVE MARKET</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Aug 2024</div><div class="event-name">ROOFTOP RUMBLE: A Rooftop Bass Party</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jul 2024</div><div class="event-name">SUMMER RAVE - (B)Rain Forest Edition</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jun 2024</div><div class="event-name">Rinse & Repeat: Rooftop House + Techno Party</div><div class="event-venue">Trellis Rooftop · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">May 2024</div><div class="event-name">SUB:WOOFER Charity Show for the Dogs Ft. AUTOMHATE</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2024</div><div class="event-name">ANCHORS AWAY 2024</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2024</div><div class="event-name">INZO presents Visionquest — SOLD OUT</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2024</div><div class="event-name">SUBDOCTA - Left for Dead Tour 2024</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jan 2024</div><div class="event-name">SUB:SONIC Ft. SIPPY</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+
+    <!-- 2023 -->
+    <div class="event-card"><div class="event-date">Nov 2023</div><div class="event-name">MERSIV - "Out of Bounds" Tour</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Nov 2023</div><div class="event-name">WRECKNO - "The Takeout Tour"</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2023</div><div class="event-name">DMVU + Toadface</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2023</div><div class="event-name">MARAUDA - CLEVELAND</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Oct 2023</div><div class="event-name">Rinse & Repeat: Season Finale Ft. Calvin Stanley</div><div class="event-venue">Trellis Rooftop · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2023</div><div class="event-name">ANCHORS AWAY at Beachland Ballroom</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2023</div><div class="event-name">LATE NIGHT RADIO - CLEVELAND</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Apr 2023</div><div class="event-name">PHUTUREPRIMITIVE - MIND'S EYE TOUR</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2023</div><div class="event-name">YHETI - KNEW SOUND TOUR - CLEVELAND</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2023</div><div class="event-name">WAKAAN Presents: Buku & G-REX - Dual Continuum Tour</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2023</div><div class="event-name">WINTER FORMAL</div><div class="event-venue">Beachland Ballroom · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jan 2023</div><div class="event-name">SHLUMP & SHANGHAI DOOM - ALIEN TRIP TOUR</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+
+    <!-- 2022 -->
+    <div class="event-card"><div class="event-date">Oct 2022</div><div class="event-name">WAKAAN Presents: Liquid Stranger – DIMENSIONS Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Aug 2022</div><div class="event-name">SUB:LUMINAL feat. TroyBoi, 1788-L, EV</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">May 2022</div><div class="event-name">EPTIC - END OF THE WORLD TOUR</div><div class="event-venue">Beachland Ballroom · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2022</div><div class="event-name">WILD - A MONSTER Brite Winter Celebration</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+
+    <!-- 2021 -->
+    <div class="event-card"><div class="event-date">Oct 2021</div><div class="event-name">CloZee</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Oct 2021</div><div class="event-name">Marvel Years and Maddy O'Neal</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Sep 2021</div><div class="event-name">Blockhead at The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Sep 2021</div><div class="event-name">ill.Gates at The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Aug 2021</div><div class="event-name">Return of The Sound / Sonic Relief</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand sub">SUB:MERGED</span></div>
+
+    <!-- 2020 CUMULUS -->
+    <div class="event-card"><div class="event-date">Mar 2020</div><div class="event-name">JAUZ - Dangerous Waters Tour</div><div class="event-venue">House of Blues · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2020</div><div class="event-name">NGHTMRE - The Portal Tour</div><div class="event-venue">House of Blues · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Jan 2020</div><div class="event-name">Doctor P and Cookie Monsta at Beachland</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2019</div><div class="event-name">Hindsight 2020 (NYE)</div><div class="event-venue">Mulberry's · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2019</div><div class="event-name">Winter Warm Up 2019</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2019</div><div class="event-name">Sullivan King "Thank You For Raging Tour"</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2019</div><div class="event-name">FuntCase DPMO Tour 2019</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2019</div><div class="event-name">Ganja White Night w/ Boogie T, Jantsen & SubDocta</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Nov 2019</div><div class="event-name">Gryffin presents Gravity II Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Oct 2019</div><div class="event-name">Disco Of The Dead 2019</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">May 2019</div><div class="event-name">Blunts & Blondes at Beachland Ballroom</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2019</div><div class="event-name">Boogie T presents Boogie T.rio, Mersiv, Vampa</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2019</div><div class="event-name">SOLD OUT: Radiate 2019</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2019</div><div class="event-name">The Crystal Method — SOLD OUT</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Jan 2019</div><div class="event-name">DJ QBert at The Winchester</div><div class="event-venue">The Winchester · Lakewood</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2018 -->
+    <div class="event-card"><div class="event-date">Oct 2018</div><div class="event-name">Disco of the Dead 2018</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2018</div><div class="event-name">Minnesota w/ ZEKE BEATS at Beachland</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2018</div><div class="event-name">Virtual NYE (Grog Shop)</div><div class="event-venue">Grog Shop · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2018</div><div class="event-name">Winter Warm Up 2018</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2018</div><div class="event-name">Radiate 2018</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2017 -->
+    <div class="event-card"><div class="event-date">Oct 2017</div><div class="event-name">Disco Of The Dead 2017</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Oct 2017</div><div class="event-name">Krewella New World Tour at Liquid (18+)</div><div class="event-venue">Liquid · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2017</div><div class="event-name">Winter Warm Up 2017</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2017</div><div class="event-name">Space Jesus</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2017</div><div class="event-name">Phantom's Ball Masquerave</div><div class="event-venue">The Odeon · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2017</div><div class="event-name">Radiate 2017</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2016 -->
+    <div class="event-card"><div class="event-date">Oct 2016</div><div class="event-name">Disco of the Dead - Halloween Massive</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2016</div><div class="event-name">Winter Warm Up 2016</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2016</div><div class="event-name">RADIATE 2016</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2016</div><div class="event-name">Excision - Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2015 -->
+    <div class="event-card"><div class="event-date">Sep 2015</div><div class="event-name">Zedd - Cleveland (Jacobs Pavilion)</div><div class="event-venue">Jacobs Pavilion · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Jun 2015</div><div class="event-name">Clean Bandit Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Jun 2015</div><div class="event-name">Gamma 2015</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">May 2015</div><div class="event-name">Eric Prydz @ Liquid (18+ Show)</div><div class="event-venue">Liquid · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Apr 2015</div><div class="event-name">Madeon Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2015</div><div class="event-name">Excision Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2015</div><div class="event-name">Radiate 2015</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+
+    <!-- 2014 -->
+    <div class="event-card"><div class="event-date">May 2014</div><div class="event-name">SKRILLEX Cleveland</div><div class="event-venue">Jacobs Pavilion at Nautica</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2014</div><div class="event-name">Excision Cleveland 2014</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2014</div><div class="event-name">GRAMATIK - "THE AGE OF REASON TOUR"</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Oct 2014</div><div class="event-name">Bassnectar @ Agora Theater</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Oct 2014</div><div class="event-name">Big Gigantic "Touch The Sky Tour"</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2014</div><div class="event-name">RL Grime Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2014</div><div class="event-name">Kill The Noise "Majestic as Fak" Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2014</div><div class="event-name">Netsky LIVE Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2014</div><div class="event-name">Flosstradamus Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2014</div><div class="event-name">Winter Warm Up 2014</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2013 -->
+    <div class="event-card"><div class="event-date">Dec 2013</div><div class="event-name">ZEDD @ House of Blues (Moment Of Clarity Tour)</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2013</div><div class="event-name">ADVENTURE CLUB "Superheroes Anonymous Tour"</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Dec 2013</div><div class="event-name">Winter Warm Up 2013</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <div class="event-card"><div class="event-date">Oct 2013</div><div class="event-name">ZEDS DEAD "ALTERED STATES TOUR"</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Sep 2013</div><div class="event-name">Flux Pavilion "Freeway Tour" Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Aug 2013</div><div class="event-name">E.S.T. FEST w/ Machine Gun Kelly & Friends LIVE</div><div class="event-venue">Nelson Ledges Quarry Park</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">May 2013</div><div class="event-name">Flying Lotus</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">May 2013</div><div class="event-name">Dirtyphonics w/ Le Castle Vania / ETC!ETC!</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2013</div><div class="event-name">Excision Tour 2013 - Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2013</div><div class="event-name">Major Lazer "Free The Universe Tour"</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2013</div><div class="event-name">RADIATE 2013: NEON WASTELAND</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2012 -->
+    <div class="event-card"><div class="event-date">Nov 2012</div><div class="event-name">BASSGIVING W/ ZEDS DEAD</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Nov 2012</div><div class="event-name">Paul Oakenfold @ Liquidsixx</div><div class="event-venue">Liquid · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Oct 2012</div><div class="event-name">The Polish Ambassador @ Beachland Ballroom</div><div class="event-venue">Beachland · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <div class="event-card"><div class="event-date">Aug 2012</div><div class="event-name">Doctor P Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Jun 2012</div><div class="event-name">KASKADE - FREAKS OF NATURE TOUR</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">May 2012</div><div class="event-name">12TH PLANET & DJ CRAZE *Special Event*</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2012</div><div class="event-name">EXCISION Tour - Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2012</div><div class="event-name">SBTRKT - Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Mar 2012</div><div class="event-name">WRECKLESS 2</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2012</div><div class="event-name">Mord Fustang - Plasmapool Road Trip Tour</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Feb 2012</div><div class="event-name">RUSKO Tour - Cleveland</div><div class="event-venue">House of Blues · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Jan 2012</div><div class="event-name">RADIATE "GLOW PARTY"</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+    <!-- 2011 -->
+    <div class="event-card"><div class="event-date">Dec 2011</div><div class="event-name">WINTER WARM UP 2011 — CUMULUS 1 YEAR ANNIVERSARY</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Sep 2011</div><div class="event-name">GAMMA - FULL SCALE LASER EVENT</div><div class="event-venue">The Agora · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Aug 2011</div><div class="event-name">Emancipator LIVE in Cleveland — First Time Ever</div><div class="event-venue">Grog Shop · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+    <div class="event-card"><div class="event-date">Apr 2011</div><div class="event-name">SEISMIC w/ Vaski, Eprom, Digiraatii</div><div class="event-venue">Dream Nightclub · Cleveland</div><span class="event-brand">CUMULUS</span></div>
+
+  </div>
+
+  <!-- PER-YEAR GRIDS (clone of relevant cards) -->
+  <div class="event-grid" id="sub26">
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">San Holo: Wholesome Riddim Chapter 2 Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">SubDocta - Second Opinion Tour</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">Too Many Zooz + The Floozies</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Mar 2026</div><div class="event-name">INZO: Mirrorverse Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">KREAM: Arrival Tour</div><div class="event-venue">Globe Iron · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">JUNGLE LOVE w/ Dirt Monkey</div><div class="event-venue">Musica · Akron</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">Wooli: Synapse Tour</div><div class="event-venue">The Agora · Cleveland</div></div>
+    <div class="event-card"><div class="event-date">Feb 2026</div><div class="event-name">BUKU @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+    <div class="event-card"><div class="event-date">Jan 2026</div><div class="event-name">SHLUMP @ Mercury Music Lounge</div><div class="event-venue">Mercury · Lakewood</div><span class="event-brand sub">SUB:MERGED</span></div>
+  </div>
+
+</section>
+
+<!-- ═══ VENUES ═══ -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">Venue Relationships</h2>
+    <span class="section-count">15+ partners across OH, NY, FL</span>
+  </div>
+  <div class="venues-list">
+    <div class="venue-item">The Agora Theater & Ballroom<div class="venue-city">Cleveland, OH · Primary anchor · 10+ yr relationship · Stagehand/Security 2008–2012</div></div>
+    <div class="venue-item">House of Blues Cleveland<div class="venue-city">Cleveland, OH · Regular booker · Major touring acts</div></div>
+    <div class="venue-item">Beachland Ballroom<div class="venue-city">Cleveland, OH · Production Mgr/Talent Buyer 2014–2017 · 650 cap</div></div>
+    <div class="venue-item">The Winchester Music Tavern<div class="venue-city">Lakewood, OH · Primary booking partner</div></div>
+    <div class="venue-item">Mercury Music Lounge<div class="venue-city">Lakewood, OH · SUB:MERGED home base</div></div>
+    <div class="venue-item">Mulberry's Cleveland<div class="venue-city">Cleveland, OH · Intimate shows</div></div>
+    <div class="venue-item">Grog Shop<div class="venue-city">Cleveland Heights, OH</div></div>
+    <div class="venue-item">Jacobs Pavilion at Nautica<div class="venue-city">Cleveland, OH · Large format</div></div>
+    <div class="venue-item">Globe Iron<div class="venue-city">Cleveland, OH · 2025–present</div></div>
+    <div class="venue-item">Musica<div class="venue-city">Akron, OH · SUB:MERGED partner</div></div>
+    <div class="venue-item">The Outpost Concert Club<div class="venue-city">Kent, OH</div></div>
+    <div class="venue-item">The Foundry Concert Club<div class="venue-city">Lakewood, OH</div></div>
+    <div class="venue-item">Nelson Ledges Quarry Park<div class="venue-city">Garrettsville, OH · Outdoor festival</div></div>
+    <div class="venue-item">Foundation Room / HOB<div class="venue-city">Cleveland, OH · Boutique events</div></div>
+    <div class="venue-item">Heron Farm & Event Center<div class="venue-city">Sherman, NY · Festival</div></div>
+    <div class="venue-item">Trellis Rooftop<div class="venue-city">Lakewood, OH · Outdoor series</div></div>
+  </div>
+</section>
+
+<!-- ═══ BRANDS ═══ -->
+<section>
+  <div class="section-header">
+    <h2 class="section-title">Brands Founded</h2>
+  </div>
+  <div class="brands-section">
+    <div class="brand-block">
+      <div class="brand-name cumulus">Cumulus Entertainment</div>
+      <div class="brand-years">2011 — 2020 · Cleveland, OH</div>
+      <div class="brand-desc">Founded from scratch in 2011, Cumulus Entertainment became one of Cleveland's premier electronic music promotion companies over a decade of operation. The Agora Theater served as the primary home for flagship productions including Radiate, Disco of the Dead, Winter Warm Up, and Gamma. Alongside The Agora, Cumulus built deep partnerships with House of Blues, Beachland Ballroom (where Shaun also served as Production Manager and Talent Buyer 2014–2017), and Jacobs Pavilion. Responsible for bringing major national touring acts — including Skrillex, Bassnectar, Zedd, Excision, Major Lazer, Kaskade, and Paul Oakenfold — to Cleveland audiences. Total reach: 100,000+ attendees across 10 years and 300+ events.</div>
+    </div>
+    <div class="brand-block">
+      <div class="brand-name sub">SUB:MERGED Events</div>
+      <div class="brand-years">2021 — Present · Cleveland / Akron, OH</div>
+      <div class="brand-desc">Launched in 2021 as the successor to Cumulus, SUB:MERGED Events expanded the model into deeper bass music, house, techno, and drum & bass programming. Built ongoing series including SUB:SONIC, Rinse & Repeat, Rooftop Rumble, and Summer Rave. Cultivated partnerships with Mercury Music Lounge, Musica, and The Winchester as primary venues, while continuing to book at The Agora for major touring acts. Currently active through 2026 with consistent monthly programming.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="contact-bar">
+  <div class="contact-bar-left">
+    <div class="contact-bar-title">Available Now</div>
+    <div class="contact-bar-sub">Recently relocated · Central Florida · Open to freelance &amp; full-time</div>
+  </div>
+  <div class="contact-links">
+    <a href="/cdn-cgi/l/email-protection#98ebf0f9edf6d8ebedfaf5fdeafffdfcb6fdeefdf6eceb" class="contact-link"><span class="__cf_email__" data-cfemail="80f3e8e1f5eec0f3f5e2ede5f2e7e5e4aee5f6e5eef4f3">[email&#160;protected]</span></a>
+    <a href="tel:4404291518" class="contact-link">440-429-1518</a>
+  </div>
+</div>
+
+<footer>
+  <span>Shaun Malone · Event Production Portfolio</span>
+  <span>2011 — 2026</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showEra(id) {
+  document.querySelectorAll('.event-grid').forEach(g => g.classList.remove('active'));
+  document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+
+  // fallback: use "all" grid filtered by year group
+  const yearMap = {
+    sub25: '2025', sub24: '2024', sub23: '2023', sub22: '2022',
+    sub21: '2021', cumulus20: '2020', cumulus19: '2019', cumulus18: '2018',
+    cumulus17: '2017', cumulus1416: '2014–16', cumulus1113: '2011–13'
+  };
+
+  if (!target || !target.children.length) {
+    const allGrid = document.getElementById('all');
+    allGrid.classList.add('active');
+    const year = yearMap[id];
+    if (year) {
+      // show all and highlight year - simple approach: filter
+      const cards = allGrid.querySelectorAll('.event-card');
+      cards.forEach(c => {
+        const dateEl = c.querySelector('.event-date');
+        if (!dateEl) return;
+        const txt = dateEl.textContent;
+        if (id === 'cumulus1416') {
+          c.style.display = (txt.includes('2014') || txt.includes('2015') || txt.includes('2016')) ? '' : 'none';
+        } else if (id === 'cumulus1113') {
+          c.style.display = (txt.includes('2011') || txt.includes('2012') || txt.includes('2013')) ? '' : 'none';
+        } else {
+          c.style.display = txt.includes(year) ? '' : 'none';
+        }
+      });
+    }
+  }
+
+  event.target.classList.add('active');
+}
